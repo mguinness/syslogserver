@@ -40,8 +40,8 @@
             this.facilityDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.severityDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.contentDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.datestampDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.hostnameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.datestampDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.messageBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.textBox2 = new System.Windows.Forms.TextBox();
@@ -56,7 +56,13 @@
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.actionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.clearToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.setFilterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.resetFiltersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.flushToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.copyLogsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             datestampLabel = new System.Windows.Forms.Label();
             hostnameLabel = new System.Windows.Forms.Label();
             sourceIPLabel = new System.Windows.Forms.Label();
@@ -128,6 +134,7 @@
             this.dataGridView1.AllowUserToAddRows = false;
             this.dataGridView1.AllowUserToDeleteRows = false;
             this.dataGridView1.AllowUserToOrderColumns = true;
+            this.dataGridView1.AllowUserToResizeRows = false;
             this.dataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
@@ -137,8 +144,8 @@
             this.facilityDataGridViewTextBoxColumn,
             this.severityDataGridViewTextBoxColumn,
             this.contentDataGridViewTextBoxColumn,
-            this.datestampDataGridViewTextBoxColumn,
-            this.hostnameDataGridViewTextBoxColumn});
+            this.hostnameDataGridViewTextBoxColumn,
+            this.datestampDataGridViewTextBoxColumn});
             this.dataGridView1.DataSource = this.messageBindingSource;
             this.dataGridView1.Location = new System.Drawing.Point(12, 27);
             this.dataGridView1.Name = "dataGridView1";
@@ -173,6 +180,14 @@
             this.contentDataGridViewTextBoxColumn.ReadOnly = true;
             this.contentDataGridViewTextBoxColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
+            // hostnameDataGridViewTextBoxColumn
+            // 
+            this.hostnameDataGridViewTextBoxColumn.DataPropertyName = "Hostname";
+            this.hostnameDataGridViewTextBoxColumn.HeaderText = "Hostname";
+            this.hostnameDataGridViewTextBoxColumn.Name = "hostnameDataGridViewTextBoxColumn";
+            this.hostnameDataGridViewTextBoxColumn.ReadOnly = true;
+            this.hostnameDataGridViewTextBoxColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
             // datestampDataGridViewTextBoxColumn
             // 
             this.datestampDataGridViewTextBoxColumn.DataPropertyName = "Datestamp";
@@ -182,18 +197,11 @@
             this.datestampDataGridViewTextBoxColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.datestampDataGridViewTextBoxColumn.Width = 125;
             // 
-            // hostnameDataGridViewTextBoxColumn
-            // 
-            this.hostnameDataGridViewTextBoxColumn.DataPropertyName = "Hostname";
-            this.hostnameDataGridViewTextBoxColumn.HeaderText = "Hostname";
-            this.hostnameDataGridViewTextBoxColumn.Name = "hostnameDataGridViewTextBoxColumn";
-            this.hostnameDataGridViewTextBoxColumn.ReadOnly = true;
-            this.hostnameDataGridViewTextBoxColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
             // messageBindingSource
             // 
             this.messageBindingSource.DataSource = typeof(SyslogServer.Message);
             this.messageBindingSource.Sort = "";
+            this.messageBindingSource.ListChanged += new System.ComponentModel.ListChangedEventHandler(this.messageBindingSource_ListChanged);
             // 
             // groupBox1
             // 
@@ -295,7 +303,8 @@
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
-            this.actionToolStripMenuItem});
+            this.actionToolStripMenuItem,
+            this.helpToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(784, 24);
@@ -320,17 +329,62 @@
             // actionToolStripMenuItem
             // 
             this.actionToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.clearToolStripMenuItem});
+            this.setFilterToolStripMenuItem,
+            this.resetFiltersToolStripMenuItem,
+            this.toolStripSeparator1,
+            this.copyLogsToolStripMenuItem,
+            this.flushToolStripMenuItem});
             this.actionToolStripMenuItem.Name = "actionToolStripMenuItem";
             this.actionToolStripMenuItem.Size = new System.Drawing.Size(54, 20);
             this.actionToolStripMenuItem.Text = "Action";
             // 
-            // clearToolStripMenuItem
+            // setFilterToolStripMenuItem
             // 
-            this.clearToolStripMenuItem.Name = "clearToolStripMenuItem";
-            this.clearToolStripMenuItem.Size = new System.Drawing.Size(101, 22);
-            this.clearToolStripMenuItem.Text = "Clear";
-            this.clearToolStripMenuItem.Click += new System.EventHandler(this.clearToolStripMenuItem_Click);
+            this.setFilterToolStripMenuItem.Name = "setFilterToolStripMenuItem";
+            this.setFilterToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.setFilterToolStripMenuItem.Text = "Set Filters";
+            this.setFilterToolStripMenuItem.Click += new System.EventHandler(this.setFilterToolStripMenuItem_Click);
+            // 
+            // resetFiltersToolStripMenuItem
+            // 
+            this.resetFiltersToolStripMenuItem.Name = "resetFiltersToolStripMenuItem";
+            this.resetFiltersToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.resetFiltersToolStripMenuItem.Text = "Reset Filters";
+            this.resetFiltersToolStripMenuItem.Click += new System.EventHandler(this.resetFiltersToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
+            // 
+            // flushToolStripMenuItem
+            // 
+            this.flushToolStripMenuItem.Name = "flushToolStripMenuItem";
+            this.flushToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.flushToolStripMenuItem.Text = "Flush Logs";
+            this.flushToolStripMenuItem.Click += new System.EventHandler(this.flushToolStripMenuItem_Click);
+            // 
+            // copyLogsToolStripMenuItem
+            // 
+            this.copyLogsToolStripMenuItem.Name = "copyLogsToolStripMenuItem";
+            this.copyLogsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.copyLogsToolStripMenuItem.Text = "Copy Logs";
+            this.copyLogsToolStripMenuItem.Click += new System.EventHandler(this.copyLogsToolStripMenuItem_Click);
+            // 
+            // helpToolStripMenuItem
+            // 
+            this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.aboutToolStripMenuItem});
+            this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+            this.helpToolStripMenuItem.Text = "Help";
+            // 
+            // aboutToolStripMenuItem
+            // 
+            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
+            this.aboutToolStripMenuItem.Text = "About";
+            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -362,11 +416,6 @@
         #endregion
         private System.Windows.Forms.BindingSource messageBindingSource;
         private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn facilityDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn severityDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn contentDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn datestampDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn hostnameDataGridViewTextBoxColumn;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.TextBox contentTextBox;
@@ -380,7 +429,18 @@
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem actionToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem clearToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem flushToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem setFilterToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem resetFiltersToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem copyLogsToolStripMenuItem;
+        private System.Windows.Forms.DataGridViewTextBoxColumn facilityDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn severityDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn contentDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn hostnameDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn datestampDataGridViewTextBoxColumn;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
     }
 }
 

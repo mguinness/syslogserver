@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SyslogServer.Properties;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -24,7 +25,7 @@ namespace SyslogServer
         {
             try
             {
-                var udp = new UdpClient(514);
+                var udp = new UdpClient(Settings.Default.UdpPort);
                 UdpListener(udp);
 
                 Application.EnableVisualStyles();
@@ -132,5 +133,23 @@ namespace SyslogServer
         public string Content { get; set; }
         public string RemoteIP{ get; set; }
         public DateTime LocalDate { get; set; }
+    }
+
+    public static class PredicateExtensions
+    {
+        public static Predicate<T> And<T>(this Predicate<T> original, Predicate<T> newPredicate)
+        {
+            return t => original(t) && newPredicate(t);
+        }
+
+        public static Predicate<T> Or<T>(this Predicate<T> original, Predicate<T> newPredicate)
+        {
+            return t => original(t) || newPredicate(t);
+        }
+
+        public static Predicate<T> Not<T>(this Predicate<T> original)
+        {
+            return t => !original(t);
+        }
     }
 }

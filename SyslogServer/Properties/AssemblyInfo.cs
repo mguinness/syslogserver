@@ -6,7 +6,9 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("SyslogServer")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription(@"Source: https://github.com/mguinness/syslogserver
+Using: https://github.com/waynebloss/BindingListView
+Inspiration: http://sourceforge.net/projects/syslog-server")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("SyslogServer")]

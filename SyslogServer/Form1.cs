@@ -85,6 +85,8 @@ namespace SyslogServer
 
                     if (facilities.Any() || severities.Any() || hosts.Any() || contents.Any())
                         ApplyFilter(messageBindingSource.DataSource as BindingListView<Message>);
+                    else
+                        messageBindingSource.RemoveFilter();
                 }
             }
         }

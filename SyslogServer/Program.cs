@@ -51,7 +51,7 @@ namespace SyslogServer
   [0-9]{2}\:[0-9]{2}\:[0-9]{2}\s
   [^ ]+?\s
 )?
-(?<MSG>.*)
+(?<MSG>.+)
 ", RegexOptions.IgnorePatternWhitespace | RegexOptions.Singleline | RegexOptions.Compiled);
 
             while (true)
@@ -102,7 +102,7 @@ namespace SyslogServer
                         catch (SocketException)
                         {
                             msg.Hostname = receiveResult.RemoteEndPoint.Address.ToString();
-                        }                            
+                        }
                     }
 
                     msg.Content = m.Groups["MSG"].Value;

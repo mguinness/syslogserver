@@ -46,7 +46,7 @@ namespace SyslogServer
             Regex _re = new Regex(@"^
 (?<PRI>\<\d{1,3}\>)?
 (?<HDR>
-  Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec\s
+  (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s
   [0-3][0-9]\s
   [0-9]{2}\:[0-9]{2}\:[0-9]{2}\s
   [^ ]+?\s
